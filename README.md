@@ -8,11 +8,12 @@ A simple RESTful API for managing events, user registrations and statistics.
 2. Change directory: `cd Event-Management-System`
 3. Install dependencies: `npm install`
 4. Create a `.env` file and set up your PostgreSQL details:
-```DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=your_database
+```
+PGUSER=your_db_user
+PGHOST=localhost
+PGDATABASE=event_management
+PGPASSWORD=your_db_password
+PGPORT=5432
 ```
 5. Start the server: `npm run dev`
 ---
