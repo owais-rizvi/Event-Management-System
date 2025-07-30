@@ -138,11 +138,9 @@ export const getEventStats = async (req, res) => {
     const currentRegistrations = parseInt(registrationResult.rows[0].count);
     const remainingCapacity = totalCapacity - currentRegistrations;
     const percentCapacity = (currentRegistrations / totalCapacity) * 100;
-    return res
-      .status(200)
-      .json({
-        message: `Total registrations: ${currentRegistrations}. Remaining capacity: ${remainingCapacity}. Percentage of capacity used: ${percentCapacity}%`,
-      });
+    return res.status(200).json({
+      message: `Total registrations: ${currentRegistrations}. Remaining capacity: ${remainingCapacity}. Percentage of capacity used: ${percentCapacity}%`,
+    });
   } catch (error) {
     console.log("Error while getting stats for event", error);
     return res
@@ -152,15 +150,18 @@ export const getEventStats = async (req, res) => {
 };
 
 export const getUpcomingEvents = async (req, res) => {
-  try{
-    const result = await pool.query('SELECT * FROM events WHERE datetime > NOW() ORDER BY datetime ASC, location ASC');
-    if(result.rows.length == 0){
-      return res.status(404).json({error: 'No upcoming events found'});
+  try {
+    const result = await pool.query(
+      "SELECT * FROM events WHERE datetime > NOW() ORDER BY datetime ASC, location ASC"
+    );
+    if (result.rows.length == 0) {
+      return res.status(404).json({ error: "No upcoming events found" });
     }
     return res.status(200).json(result.rows);
+  } catch (error) {
+    console.log("Error while getting upcoming events", error);
+    return res
+      .status(400)
+      .json({ error: "Error while getting upcoming events" });
   }
-  catch(error){
-    console.log('Error while getting upcoming events', error);
-    return res.status(400).json({error:'Error while getting upcoming events'});
-  }
-}
+};
