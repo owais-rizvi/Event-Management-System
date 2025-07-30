@@ -150,3 +150,17 @@ export const getEventStats = async (req, res) => {
       .json({ error: "Error while getting stats for event" });
   }
 };
+
+export const getUpcomingEvents = async (req, res) => {
+  try{
+    const result = await pool.query('SELECT * FROM events WHERE datetime > NOW() ORDER BY datetime ASC, location ASC');
+    if(result.rows.length == 0){
+      return res.status(404).json({error: 'No upcoming events found'});
+    }
+    return res.status(200).json(result.rows);
+  }
+  catch(error){
+    console.log('Error while getting upcoming events', error);
+    return res.status(400).json({error:'Error while getting upcoming events'});
+  }
+}
